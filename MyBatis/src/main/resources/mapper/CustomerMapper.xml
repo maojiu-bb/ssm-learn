@@ -1,0 +1,89 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pojo.Customer">
+    <select id="selectCustomerByUsernameAndJobs" resultType="com.pojo.Customer" parameterType="com.pojo.Customer">
+--         SELECT * FROM customer WHERE 1 = 1
+<!--        <if test="username != null and username != ''">-->
+<!--            AND username like concat('%', #{username}, '%')-->
+<!--        </if>-->
+<!--        <if test="jobs != null and jobs != ''">-->
+<!--            AND jobs = #{jobs}-->
+<!--        </if>-->
+<!--        <choose>-->
+<!--            <when test="username != null and username != ''">-->
+<!--                and username like concat('%', #{username}, '%')-->
+<!--            </when>-->
+<!--            <when test="jobs != null and jobs != ''">-->
+<!--                and jobs = #{jobs}-->
+<!--            </when>-->
+<!--            <otherwise>-->
+<!--                and phone is not null-->
+<!--            </otherwise>-->
+<!--        </choose>-->
+        select * from customer
+<!--        <where>-->
+<!--            <if test="username != null and username != ''">-->
+<!--                AND username like concat('%', #{username}, '%')-->
+<!--            </if>-->
+<!--            <if test="jobs != null and jobs != ''">-->
+<!--                AND jobs = #{jobs}-->
+<!--            </if>-->
+<!--        </where>-->
+        <trim prefix="where" prefixOverrides="and">
+            <if test="username != null and username != ''">
+                AND username like concat('%', #{username}, '%')
+            </if>
+            <if test="jobs != null and jobs != ''">
+                AND jobs = #{jobs}
+            </if>
+        </trim>
+    </select>
+    <update id="updateCustomerBySet" parameterType="com.pojo.Customer">
+        update customer
+<!--        <set>-->
+<!--            <if test="username != null and username != ''">-->
+<!--                username = #{username}-->
+<!--            </if>-->
+<!--            <if test="jobs != null and jobs != ''">-->
+<!--                jobs = #{jobs}-->
+<!--            </if>-->
+<!--            <if test="phone != null and phone != ''">-->
+<!--                phone = #{phone}-->
+<!--            </if>-->
+<!--        </set>-->
+        <trim prefix="set" prefixOverrides=",">
+            <if test="username != null and username != ''">
+                            username = #{username}
+                        </if>
+                        <if test="jobs != null and jobs != ''">
+                            jobs = #{jobs}
+                        </if>
+                        <if test="phone != null and phone != ''">
+                            phone = #{phone}
+                        </if>
+        </trim>
+        where id = #{id}
+    </update>
+    <select id="selectByArray" parameterType="java.util.ArrayList" resultType="com.pojo.Customer">
+        select * from customer
+        where id in
+        <foreach collection="array" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    <select id="selectByList" parameterType="java.util.ArrayList" resultType="com.pojo.Customer">
+        select * from customer
+        where id in
+        <foreach collection="list" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    <select id="selectByMap" parameterType="java.util.Map" resultType="com.pojo.Customer">
+        select * from customer
+        where id in
+        <foreach collection="id" item="roleMap" index="index" open="(" separator="," close=")">
+            #{roleMap}
+        </foreach>
+    </select>
+</mapper>

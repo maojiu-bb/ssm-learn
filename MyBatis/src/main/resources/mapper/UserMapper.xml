@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--mapper 为映射的跟节点-->
+<mapper namespace="com.pojo.User">
+    <select id="selectUser" resultType="com.pojo.User">
+        SELECT *
+        FROM users
+    </select>
+    <select id="findById" parameterType="int" resultType="com.pojo.User">
+        SELECT *
+        FROM users
+        WHERE uid = #{uid}
+    </select>
+    <insert id="insertUser" parameterType="com.pojo.User">
+        INSERT INTO users (uname, uage)
+        VALUES (#{uname}, #{uage})
+    </insert>
+    <update id="updateUser" parameterType="com.pojo.User">
+        UPDATE users
+        SET uage = #{uage}
+        WHERE uid = #{uid}
+    </update>
+    <delete id="deleteUser" parameterType="int">
+        DELETE FROM users
+        WHERE uid = #{uid}
+    </delete>
+</mapper>
+
